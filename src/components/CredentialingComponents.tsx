@@ -5,41 +5,65 @@ export const PSV = () => {
   const [psvData, setPsvData] = useState({
     // Medical License Verification
     fullName: 'Dr. Amy Collins',
+    dateOfBirth: '1980-05-15',
     nationalProviderIdentifier: '1234567890',
-    medicalLicenseNumber: '456xxxxxxx',
     
-    // Residency Verification
-    medicalSchool: 'University of Texas Medical Branch',
-    graduationYear: '2012',
-    residencyProgram: 'Baylor College of Medicine',
-    fellowshipProgram: 'Texas Children\'s Hospital',
-    fellowshipCompletionDate: '2019-06-30',
+    // Education and Training
+    educationAndTraining: [
+      {
+        programType: 'Medical School',
+        programName: 'University of Texas Medical Branch',
+        specialtySubspecialty: 'Medicine',
+        yearCompleted: '2012',
+        status: 'Completed'
+      },
+      {
+        programType: 'Residency',
+        programName: 'Baylor College of Medicine',
+        specialtySubspecialty: 'Pediatrics',
+        yearCompleted: '2015',
+        status: 'Completed'
+      },
+      {
+        programType: 'Fellowship',
+        programName: 'Texas Children\'s Hospital',
+        specialtySubspecialty: 'Pediatric Cardiology',
+        yearCompleted: '2019',
+        status: 'Completed'
+      }
+    ],
     
-    // Medical Board Verification
-    medicalBoardVerifications: [
+    // State Board Verification (renamed from Physician Overview)
+    stateBoardVerification: [
       {
         state: 'New York',
         subspecialtyCertification: 'Pediatric Cardiology',
-        stateBoardCertificationNumber: 'DEF123456',
+        stateMedicalLicenseNumber: 'DEF123456',
         dateOfBoardCertification: '2020-07-15',
         dateOfBoardRecertification: '2025-07-15',
-        verificationStatus: 'Verified'
+        verificationStatus: 'Verified',
+        licenseStatus: 'Active',
+        disciplinaryAction: 'None'
       },
       {
         state: 'California',
         subspecialtyCertification: 'Pediatric Cardiology',
-        stateBoardCertificationNumber: 'CAL789012',
+        stateMedicalLicenseNumber: 'CAL789012',
         dateOfBoardCertification: '2019-09-01',
         dateOfBoardRecertification: '2024-09-01',
-        verificationStatus: 'Pending'
+        verificationStatus: 'Pending',
+        licenseStatus: 'Active',
+        disciplinaryAction: 'None'
       },
       {
         state: 'Texas',
         subspecialtyCertification: 'Pediatric Cardiology',
-        stateBoardCertificationNumber: 'TEX345678',
+        stateMedicalLicenseNumber: 'TEX345678',
         dateOfBoardCertification: '2021-03-30',
         dateOfBoardRecertification: '2026-03-30',
-        verificationStatus: 'Expired'
+        verificationStatus: 'Expired',
+        licenseStatus: 'Expired',
+        disciplinaryAction: 'Suspension'
       }
     ]
   });
@@ -49,55 +73,161 @@ export const PSV = () => {
     setPsvData(prevData => ({ ...prevData, [name]: value }));
   };
 
-  const handleMedicalBoardInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleEducationInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, index: number) => {
     const { name, value } = e.target;
     setPsvData(prevData => {
-      const newMedicalBoardVerifications = [...prevData.medicalBoardVerifications];
-      newMedicalBoardVerifications[index] = { ...newMedicalBoardVerifications[index], [name]: value };
-      return { ...prevData, medicalBoardVerifications: newMedicalBoardVerifications };
+      const newEducationAndTraining = [...prevData.educationAndTraining];
+      newEducationAndTraining[index] = { ...newEducationAndTraining[index], [name]: value };
+      return { ...prevData, educationAndTraining: newEducationAndTraining };
+    });
+  };
+
+  const addNewEducation = () => {
+    setPsvData(prevData => ({
+      ...prevData,
+      educationAndTraining: [
+        ...prevData.educationAndTraining,
+        {
+          programType: '',
+          programName: '',
+          specialtySubspecialty: '',
+          yearCompleted: '',
+          status: ''
+        }
+      ]
+    }));
+  };
+
+  const handleStateBoardVerificationInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, index: number) => {
+    const { name, value } = e.target;
+    setPsvData(prevData => {
+      const newStateBoardVerification = [...prevData.stateBoardVerification];
+      newStateBoardVerification[index] = { ...newStateBoardVerification[index], [name]: value };
+      return { ...prevData, stateBoardVerification: newStateBoardVerification };
     });
   };
 
   const addNewState = () => {
     setPsvData(prevData => ({
       ...prevData,
-      medicalBoardVerifications: [
-        ...prevData.medicalBoardVerifications,
+      stateBoardVerification: [
+        ...prevData.stateBoardVerification,
         {
           state: '',
           subspecialtyCertification: '',
-          stateBoardCertificationNumber: '',
+          stateMedicalLicenseNumber: '',
           dateOfBoardCertification: '',
           dateOfBoardRecertification: '',
-          verificationStatus: ''
+          verificationStatus: '',
+          licenseStatus: '',
+          disciplinaryAction: ''
         }
       ]
     }));
   };
 
-  const renderSection = (title: string, fields: string[]) => (
+  const renderMedicalLicenseVerification = () => (
     <div className="bg-white p-6 rounded-lg shadow-md space-y-4 mb-6">
-      <h3 className="text-xl font-semibold text-indigo-800 mb-4">{title}</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {fields.map((key) => (
-          <div key={key} className="space-y-1">
-            <label className="block text-sm font-medium text-gray-700">
-              {key.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+      <h3 className="text-xl font-semibold text-indigo-800 mb-4">Medical License Verification</h3>
+      <div className="flex flex-wrap -mx-2">
+        {['fullName', 'dateOfBirth', 'nationalProviderIdentifier'].map((key) => (
+          <div key={key} className="px-2 w-full sm:w-1/3 mb-4 sm:mb-0">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              {key === 'dateOfBirth' ? 'Date of Birth' : 
+               key === 'nationalProviderIdentifier' ? 'National Provider Identifier' :
+               key.split(/(?=[A-Z])/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
             </label>
             <input
-              type={key.includes('Date') ? 'date' : 'text'}
+              type={key === 'dateOfBirth' ? 'date' : 'text'}
               name={key}
-              value={psvData[key as keyof typeof psvData]}
+              value={psvData[key as keyof typeof psvData] as string}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
             />
           </div>
         ))}
       </div>
+      
+      <h4 className="text-lg font-semibold text-indigo-700 mt-6 mb-2">Education and Training</h4>
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/6">Program Type</th>
+              <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">Institute</th>
+              <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">Specialty/Subspecialty</th>
+              <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/8">Year Completed</th>
+              <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/8">Status</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {psvData.educationAndTraining.map((education, index) => (
+              <tr key={index}>
+                <td className="px-3 py-4 whitespace-nowrap">
+                  <select
+                    name="programType"
+                    value={education.programType}
+                    onChange={(e) => handleEducationInputChange(e, index)}
+                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  >
+                    <option value="">Select type</option>
+                    <option value="Medical School">Medical School</option>
+                    <option value="Residency">Residency</option>
+                    <option value="Fellowship">Fellowship</option>
+                  </select>
+                </td>
+                <td className="px-3 py-4 whitespace-nowrap">
+                  <input
+                    type="text"
+                    name="programName"
+                    value={education.programName}
+                    onChange={(e) => handleEducationInputChange(e, index)}
+                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  />
+                </td>
+                <td className="px-3 py-4 whitespace-nowrap">
+                  <input
+                    type="text"
+                    name="specialtySubspecialty"
+                    value={education.specialtySubspecialty}
+                    onChange={(e) => handleEducationInputChange(e, index)}
+                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  />
+                </td>
+                <td className="px-3 py-4 whitespace-nowrap">
+                  <input
+                    type="text"
+                    name="yearCompleted"
+                    value={education.yearCompleted}
+                    onChange={(e) => handleEducationInputChange(e, index)}
+                    className="w-2/3 px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  />
+                </td>
+                <td className="px-3 py-4 whitespace-nowrap">
+                  <input
+                    type="text"
+                    name="status"
+                    value={education.status}
+                    onChange={(e) => handleEducationInputChange(e, index)}
+                    className="w-2/3 px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <button
+        onClick={addNewEducation}
+        className="mt-4 bg-green-500 text-white px-3 py-1 text-sm rounded-md flex items-center hover:bg-green-600 transition-colors"
+      >
+        <PlusCircle className="w-4 h-4 mr-1" />
+        Add Education/Training
+      </button>
     </div>
   );
 
-  const renderMedicalBoardVerification = () => {
+  const renderStateBoardVerification = () => {
     const states = ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"];
 
     const getStatusColor = (status: string) => {
@@ -113,29 +243,67 @@ export const PSV = () => {
       }
     };
 
+    const getLicenseStatusColor = (status: string) => {
+      switch (status.toLowerCase()) {
+        case 'active':
+          return 'bg-green-100 text-green-800';
+        case 'pending':
+          return 'bg-yellow-100 text-yellow-800';
+        case 'expired':
+          return 'bg-red-100 text-red-800';
+        default:
+          return 'bg-gray-100 text-gray-800';
+      }
+    };
+
+    const getDisciplinaryActionColor = (action: string) => {
+      switch (action.toLowerCase()) {
+        case 'none':
+          return 'bg-green-100 text-green-800';
+        case 'warning':
+          return 'bg-yellow-100 text-yellow-800';
+        case 'suspension':
+          return 'bg-red-100 text-red-800';
+        default:
+          return 'bg-gray-100 text-gray-800';
+      }
+    };
+
     return (
       <div className="bg-white p-4 rounded-lg shadow-md space-y-4 mb-6">
-        <h3 className="text-xl font-semibold text-indigo-800 mb-4">Medical Board Verification</h3>
+        <h3 className="text-xl font-semibold text-indigo-800 mb-4">State Board Verification</h3>
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
+          <table className="min-w-full divide-y divide-gray-200" style={{ tableLayout: 'fixed' }}>
+            <colgroup>
+              <col style={{ width: '12%' }} /> {/* State (increased by 20%) */}
+              <col style={{ width: '15%' }} /> {/* Subspecialty Certification */}
+              <col style={{ width: '17.5%' }} /> {/* State Medical License Number (reduced by 30%) */}
+              <col style={{ width: '12.5%' }} /> {/* Date of Board Certification */}
+              <col style={{ width: '12.5%' }} /> {/* Date of Board Recertification */}
+              <col style={{ width: '10%' }} /> {/* Verification Status */}
+              <col style={{ width: '10%' }} /> {/* License Status */}
+              <col style={{ width: '10%' }} /> {/* Disciplinary Action History */}
+            </colgroup>
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/6">State</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">Subspecialty Certification</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/6">State Board Certification Number</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/8">Date of Board Certification</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/8">Date of Board Recertification</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/6">Verification Status</th>
+                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">State</th>
+                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subspecialty Certification</th>
+                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">State Medical License Number</th>
+                <th className="px-2 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Date of Board Certification</th>
+                <th className="px-2 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider">Date of Board Recertification</th>
+                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Verification Status</th>
+                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">License Status</th>
+                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Disciplinary Action History</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {psvData.medicalBoardVerifications.map((verification, index) => (
-                <tr key={index}>
-                  <td className="px-3 py-2 whitespace-nowrap">
+              {psvData.stateBoardVerification.map((verification, index) => (
+                <tr key={index} className="hover:bg-gray-50 transition-colors duration-150 ease-in-out">
+                  <td className="px-2 py-4 whitespace-nowrap">
                     <select
                       name="state"
                       value={verification.state}
-                      onChange={(e) => handleMedicalBoardInputChange(e, index)}
+                      onChange={(e) => handleStateBoardVerificationInputChange(e, index)}
                       className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     >
                       <option value="">Select a state</option>
@@ -144,53 +312,63 @@ export const PSV = () => {
                       ))}
                     </select>
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap">
+                  <td className="px-2 py-4 whitespace-nowrap">
                     <input
                       type="text"
                       name="subspecialtyCertification"
                       value={verification.subspecialtyCertification}
-                      onChange={(e) => handleMedicalBoardInputChange(e, index)}
+                      onChange={(e) => handleStateBoardVerificationInputChange(e, index)}
                       className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     />
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap">
+                  <td className="px-2 py-4 whitespace-nowrap">
                     <input
                       type="text"
-                      name="stateBoardCertificationNumber"
-                      value={verification.stateBoardCertificationNumber}
-                      onChange={(e) => handleMedicalBoardInputChange(e, index)}
+                      name="stateMedicalLicenseNumber"
+                      value={verification.stateMedicalLicenseNumber}
+                      onChange={(e) => handleStateBoardVerificationInputChange(e, index)}
                       className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     />
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap">
+                  <td className="px-2 py-4 whitespace-nowrap">
                     <input
                       type="date"
                       name="dateOfBoardCertification"
                       value={verification.dateOfBoardCertification}
-                      onChange={(e) => handleMedicalBoardInputChange(e, index)}
-                      className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      onChange={(e) => handleStateBoardVerificationInputChange(e, index)}
+                      className="w-full px-1 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     />
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap">
+                  <td className="px-2 py-4 whitespace-nowrap">
                     <input
                       type="date"
                       name="dateOfBoardRecertification"
                       value={verification.dateOfBoardRecertification}
-                      onChange={(e) => handleMedicalBoardInputChange(e, index)}
-                      className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      onChange={(e) => handleStateBoardVerificationInputChange(e, index)}
+                      className="w-full px-1 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                     />
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap">
+                  <td className="px-2 py-4 whitespace-nowrap">
                     <select
                       name="verificationStatus"
                       value={verification.verificationStatus}
-                      onChange={(e) => handleMedicalBoardInputChange(e, index)}
+                      onChange={(e) => handleStateBoardVerificationInputChange(e, index)}
                       className={`w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${getStatusColor(verification.verificationStatus)}`}
                     >
                       <option value="Verified">Verified</option>
                       <option value="Pending">Pending</option>
                       <option value="Expired">Expired</option>
                     </select>
+                  </td>
+                  <td className="px-2 py-4 whitespace-nowrap">
+                    <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getLicenseStatusColor(verification.licenseStatus || 'Active')}`}>
+                      {verification.licenseStatus || 'Active'}
+                    </span>
+                  </td>
+                  <td className="px-2 py-4 whitespace-nowrap">
+                    <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getDisciplinaryActionColor(verification.disciplinaryAction || 'None')}`}>
+                      {verification.disciplinaryAction || 'None'}
+                    </span>
                   </td>
                 </tr>
               ))}
@@ -218,11 +396,9 @@ export const PSV = () => {
         </button>
       </div>
       
-      {renderSection("Medical License Verification", ['fullName', 'nationalProviderIdentifier', 'medicalLicenseNumber'])}
+      {renderMedicalLicenseVerification()}
       
-      {renderSection("Residency Verification", ['medicalSchool', 'graduationYear', 'residencyProgram', 'fellowshipProgram', 'fellowshipCompletionDate'])}
-      
-      {renderMedicalBoardVerification()}
+      {renderStateBoardVerification()}
     </div>
   );
 };
