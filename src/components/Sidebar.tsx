@@ -12,7 +12,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   const pathname = usePathname();
 
   const sidebarItems = [
-    { id: 'talent-search', label: 'Talent Screening', icon: Search, href: '/talent-screening' },
+    { id: 'talent-search', label: 'Talent Search', icon: Search, href: '/' }, // Changed href to '/'
     { id: 'credentialing', label: 'Credentialing', icon: FileCheck, href: '/credentialing' },
   ];
 
