@@ -25,7 +25,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
 
   return (
     <div className={`fixed left-0 top-0 h-full bg-indigo-800 text-white transition-all duration-300 z-50 ${isOpen ? 'w-64' : 'w-16'}`}>
-      <Link href="/" className="block p-4 hover:bg-indigo-700">
+      <Link href="/dashboard" className="block p-4 hover:bg-indigo-700">
         <h1 className={`text-2xl font-bold ${isOpen ? '' : 'text-center'}`}>
           {isOpen ? 'Nova' : 'N'}
         </h1>

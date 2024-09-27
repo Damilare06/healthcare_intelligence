@@ -10,9 +10,9 @@ interface PreCallPreparationProps {
 export default function PreCallPreparation({ onStartCall }: PreCallPreparationProps) {
   const candidateInfo = {
     name: "Dr. Amy Collins",
-    currentPosition: "Senior Surgeon at City Hospital",
+    currentPosition: "Senior Cardiothoracic Surgeon at City Hospital",  // Updated from "Senior Surgeon at City Hospital"
     yearsOfExperience: 15,
-    specialization: "Cardiothoracic Surgery",
+    specialization: "Cardiothoracic Surgery",  // Updated from "Cardiothoracic Surgery" if it was different before
     phoneNumber: "+1 (555) 123-4567",
     // ... other candidate information
   }

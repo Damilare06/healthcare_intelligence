@@ -9,7 +9,7 @@ const mockData = [
     name: 'Dr. Amy Collins',
     medicalLicense: '456xxxxxxx',
     taxNumber: '87-xxxxxxx',
-    specialty: 'Pediatrician',
+    specialty: 'Cardiothoracic Surgery',
     stateLicenses: ['TX', 'NY', 'CA'],
     licenseStatus: 'Approved',
     offerStatus: 'Accepted',
@@ -312,9 +312,9 @@ export default function CredentialTable() {
       {renderSearchAndFilter()}
       <div className="overflow-x-auto bg-white rounded-lg shadow">
         <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-purple-100">
+          <thead className="bg-indigo-600">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-purple-800 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                 <div className="flex flex-col">
                   <span>Name</span>
                   <div className="mt-1 invisible">
@@ -324,13 +324,13 @@ export default function CredentialTable() {
                   </div>
                 </div>
               </th>
-              <th className="hidden md:table-cell px-4 py-3 text-left text-xs font-medium text-purple-800 uppercase tracking-wider">
+              <th className="hidden md:table-cell px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                 <div className="flex flex-col">
                   <span>Specialty</span>
                   <div className="mt-1">
                     <select
                       onChange={(e) => handleColumnFilter('specialty', e.target.value)}
-                      className="block w-full text-xs bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      className="block w-full text-xs bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-700"
                     >
                       <option value="">All</option>
                       {getUniqueSpecialties().map(specialty => (
@@ -340,7 +340,7 @@ export default function CredentialTable() {
                   </div>
                 </div>
               </th>
-              <th className="hidden md:table-cell px-4 py-3 text-left text-xs font-medium text-purple-800 uppercase tracking-wider">
+              <th className="hidden md:table-cell px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                 <div className="flex flex-col">
                   <span>Medical License</span>
                   <div className="mt-1 invisible">
@@ -350,7 +350,7 @@ export default function CredentialTable() {
                   </div>
                 </div>
               </th>
-              <th className="hidden lg:table-cell px-4 py-3 text-left text-xs font-medium text-purple-800 uppercase tracking-wider">
+              <th className="hidden lg:table-cell px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                 <div className="flex flex-col">
                   <span>Tax Number</span>
                   <div className="mt-1 invisible">
@@ -360,13 +360,13 @@ export default function CredentialTable() {
                   </div>
                 </div>
               </th>
-              <th className="hidden xl:table-cell px-4 py-3 text-left text-xs font-medium text-purple-800 uppercase tracking-wider" style={{ minWidth: '250px' }}>
+              <th className="hidden xl:table-cell px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider" style={{ width: '166px' }}>
                 <div className="flex flex-col">
                   <span>State Licenses</span>
                   <div className="mt-1">
                     <select
                       onChange={(e) => handleColumnFilter('stateLicenses', e.target.value)}
-                      className="block w-full text-xs bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      className="block w-full text-xs bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-700"
                     >
                       <option value="">All</option>
                       {getUniqueStateLicenses().map(license => (
@@ -376,13 +376,13 @@ export default function CredentialTable() {
                   </div>
                 </div>
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-purple-800 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                 <div className="flex flex-col">
                   <span>License Status</span>
                   <div className="mt-1">
                     <select
                       onChange={(e) => handleColumnFilter('licenseStatus', e.target.value)}
-                      className="block w-full text-xs bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      className="block w-full text-xs bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-700"
                     >
                       <option value="">All</option>
                       {getUniqueLicenseStatuses().map(status => (
@@ -392,13 +392,13 @@ export default function CredentialTable() {
                   </div>
                 </div>
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-purple-800 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                 <div className="flex flex-col">
                   <span>Offer Status</span>
                   <div className="mt-1">
                     <select
                       onChange={(e) => handleColumnFilter('offerStatus', e.target.value)}
-                      className="block w-full text-xs bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                      className="block w-full text-xs bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 text-gray-700"
                     >
                       <option value="">All</option>
                       {getUniqueOfferStatuses().map(status => (
@@ -408,7 +408,7 @@ export default function CredentialTable() {
                   </div>
                 </div>
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-purple-800 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                 <div className="flex flex-col">
                   <span>Actions</span>
                   <div className="mt-1 invisible">
@@ -427,7 +427,7 @@ export default function CredentialTable() {
                 <td className="hidden md:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-500">{item.specialty}</td>
                 <td className="hidden md:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-500">{item.medicalLicense}</td>
                 <td className="hidden lg:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-500">{item.taxNumber}</td>
-                <td className="hidden xl:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-500" style={{ minWidth: '250px' }}>
+                <td className="hidden xl:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-500" style={{ width: '166px' }}>
                   <div className="flex flex-wrap gap-1">
                     {item.stateLicenses.slice(0, 3).map((license, index) => (
                       <span key={index} className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">

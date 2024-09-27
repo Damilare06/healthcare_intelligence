@@ -9,14 +9,14 @@ interface FitMetric {
 }
 
 export default function PostCallAnalysis() {
-  const callSummary = "The call with Dr. Amy Collins went well. She expressed strong interest in the position and demonstrated extensive knowledge in cardiothoracic surgery. Her leadership experience aligns well with our requirements."
+  const callSummary = "The call with Dr. Amy Collins went well. She expressed strong interest in the Head of Cardiothoracic Surgery position and demonstrated extensive knowledge in cardiothoracic surgery. Her leadership experience aligns well with our requirements."
 
   const keyInsights = [
     "Candidate has 15 years of experience in cardiothoracic surgery",
-    "Published 20+ research papers in reputable journals",
-    "Led a team of 15 surgeons in her current role",
-    "Interested in implementing new minimally invasive techniques",
-    "Seeks opportunity to expand research initiatives"
+    "Published 20+ research papers in reputable cardiothoracic surgery journals",
+    "Led a team of 15 cardiothoracic surgeons in her current role",
+    "Interested in implementing new minimally invasive cardiothoracic techniques",
+    "Seeks opportunity to expand cardiothoracic surgery research initiatives"
   ]
 
   const candidateFit = 85 // percentage
