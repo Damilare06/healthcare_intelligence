@@ -1,7 +1,8 @@
 'use client'
 
 import React from 'react';
-import { TrendingUp, TrendingDown, Briefcase, UserCheck, ClipboardList, Users, Clock } from 'lucide-react';
+import { TrendingUp, TrendingDown, Briefcase, UserCheck, ClipboardList, Users, Clock, PlusCircle, Upload, FileText, ChevronRight, UserPlus } from 'lucide-react';
+import Link from 'next/link';
 
 interface MetricCardProps {
   title: string;
@@ -58,9 +59,15 @@ const CredentialCard: React.FC<CredentialCardProps> = ({ name, specialty, active
           ))}
         </ul>
       </div>
-      <p className="text-sm text-gray-600">
-        <span className="font-medium">Next Renewal:</span> {nextRenewal}
-      </p>
+      <div className="flex justify-between items-center">
+        <p className="text-sm text-gray-600">
+          <span className="font-medium">Next Renewal:</span> {nextRenewal}
+        </p>
+        <Link href="/talent-screening" className="text-sm text-indigo-600 hover:text-indigo-800 transition-colors duration-300 flex items-center">
+          <UserPlus className="w-4 h-4 mr-1" />
+          Screen
+        </Link>
+      </div>
     </div>
   );
 };
@@ -104,6 +111,32 @@ const ActivityList: React.FC<{ activities: ActivityItem[] }> = ({ activities }) 
   );
 };
 
+const ActionCard: React.FC = () => {
+  return (
+    <div className="bg-white p-6 rounded-lg shadow-md">
+      <h3 className="text-lg font-semibold text-indigo-800 mb-4">Quick Actions</h3>
+      <div className="space-y-3">
+        <button className="w-full bg-white text-indigo-600 py-2 px-4 rounded-md hover:bg-indigo-50 transition-colors duration-300 flex items-center justify-start border border-indigo-300">
+          <PlusCircle className="w-5 h-5 mr-2" />
+          Create New Profile
+        </button>
+        <button className="w-full bg-white text-indigo-600 py-2 px-4 rounded-md hover:bg-indigo-50 transition-colors duration-300 flex items-center justify-start border border-indigo-300">
+          <Upload className="w-5 h-5 mr-2" />
+          Import New Profile
+        </button>
+        <button className="w-full bg-white text-indigo-600 py-2 px-4 rounded-md hover:bg-indigo-50 transition-colors duration-300 flex items-center justify-start border border-indigo-300">
+          <FileText className="w-5 h-5 mr-2" />
+          Upload Resume
+        </button>
+        <button className="w-full bg-white text-indigo-600 py-2 px-4 rounded-md hover:bg-indigo-50 transition-colors duration-300 flex items-center justify-between border border-indigo-300">
+          See More
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
+    </div>
+  );
+};
+
 export default function DashboardPage() {
   const metrics = [
     { title: 'Total Physicians', value: 1234, change: 20, icon: Users },
@@ -113,6 +146,13 @@ export default function DashboardPage() {
   ];
 
   const credentialDetails = [
+    {
+      name: 'Dr. Amy Collins',
+      specialty: 'Cardiothoracic Surgery',
+      activeLicenses: ['TX', 'NY', 'CA'],
+      certifications: ['American Board of Thoracic Surgery', 'Subspecialty Board in Congenital Cardiac Surgery'],
+      nextRenewal: 'September 1, 2024',
+    },
     {
       name: 'Dr. Emily Rodriguez',
       specialty: 'Cardiology',
@@ -133,6 +173,13 @@ export default function DashboardPage() {
       activeLicenses: ['NY', 'NJ', 'PA'],
       certifications: ['American Board of Pediatrics', 'Subspecialty Board in Pediatric Emergency Medicine'],
       nextRenewal: 'November 30, 2023',
+    },
+    {
+      name: 'Dr. James Wilson',
+      specialty: 'Orthopedic Surgery',
+      activeLicenses: ['FL', 'GA', 'SC'],
+      certifications: ['American Board of Orthopaedic Surgery', 'Subspecialty Certificate in Sports Medicine'],
+      nextRenewal: 'June 15, 2023',
     },
   ];
 
@@ -162,10 +209,14 @@ export default function DashboardPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
-            <h2 className="text-2xl font-semibold mb-6 text-indigo-800">Physician Credentials Overview</h2>
+            <h2 className="text-2xl font-semibold mb-6 text-indigo-800">Physician Overview</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {credentialDetails.map((detail, index) => (
+              {credentialDetails.slice(0, 3).map((detail, index) => (
                 <CredentialCard key={index} {...detail} />
+              ))}
+              <ActionCard />
+              {credentialDetails.slice(3).map((detail, index) => (
+                <CredentialCard key={index + 3} {...detail} />
               ))}
             </div>
           </div>

@@ -19,7 +19,7 @@ export default function DuringCall({ candidatePhoneNumber }: DuringCallProps) {
 
   const conversation: ConversationItem[] = [
     { speaker: "Recruiter", text: "Hello Dr. Collins, this is Alex from Central Hospital. How are you today?" },
-    { speaker: "Dr. Collins", text: "Hello Alex, I'm doing well, thank you. I'm looking forward to learning more about the position." },
+    { speaker: "Dr. Collins", text: "Hello Alex, I'm doing well, thank you. I'm looking forward to learning more about the Head of Cardiothoracic Surgery position." },
     { speaker: "Recruiter", text: "Great! I'd be happy to discuss the Head of Cardiothoracic Surgery role with you. What would you like to know?" },
     { speaker: "Dr. Collins", text: "Could you tell me about the typical work schedule for this position?" },
     { 
