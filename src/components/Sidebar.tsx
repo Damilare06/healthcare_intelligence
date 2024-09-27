@@ -12,8 +12,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   const pathname = usePathname();
 
   const sidebarItems = [
-    { id: 'talent-screening', label: 'Talent Screening', icon: Search, href: '/' }, // Changed from 'talent-search' to 'talent-screening'
+    { id: 'talent-screening', label: 'Talent Screening', icon: Search, href: '/' },
     { id: 'credentialing', label: 'Credentialing', icon: FileCheck, href: '/credentialing' },
+    // ... (other items)
   ];
 
   const isActive = (href: string) => {

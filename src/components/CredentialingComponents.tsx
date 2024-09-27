@@ -15,21 +15,24 @@ export const PSV = () => {
         programName: 'University of Texas Medical Branch',
         specialtySubspecialty: 'Medicine',
         yearCompleted: '2012',
-        status: 'Completed'
+        status: 'Completed',
+        verificationStatus: 'Verified'
       },
       {
         programType: 'Residency',
         programName: 'Baylor College of Medicine',
         specialtySubspecialty: 'Pediatrics',
         yearCompleted: '2015',
-        status: 'Completed'
+        status: 'Completed',
+        verificationStatus: 'Verified'
       },
       {
         programType: 'Fellowship',
         programName: 'Texas Children\'s Hospital',
         specialtySubspecialty: 'Pediatric Cardiology',
         yearCompleted: '2019',
-        status: 'Completed'
+        status: 'Completed',
+        verificationStatus: 'Pending'
       }
     ],
     
@@ -65,6 +68,19 @@ export const PSV = () => {
         licenseStatus: 'Expired',
         disciplinaryAction: 'Suspension'
       }
+    ],
+    
+    // Add new state for Board Certification
+    boardCertification: [
+      {
+        certifyingBoard: 'American Board of Pediatrics',
+        subspecialty: 'Pediatric Cardiology',
+        certificateNumber: 'ABC123456',
+        initialCertificationDate: '2020-07-15',
+        recertificationDate: '2025-07-15',
+        certificationStatus: 'Active',
+        verificationStatus: 'Verified'
+      }
     ]
   });
 
@@ -92,7 +108,8 @@ export const PSV = () => {
           programName: '',
           specialtySubspecialty: '',
           yearCompleted: '',
-          status: ''
+          status: '',
+          verificationStatus: 'Pending'
         }
       ]
     }));
@@ -126,6 +143,33 @@ export const PSV = () => {
     }));
   };
 
+  const handleBoardCertificationInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, index: number) => {
+    const { name, value } = e.target;
+    setPsvData(prevData => {
+      const newBoardCertification = [...prevData.boardCertification];
+      newBoardCertification[index] = { ...newBoardCertification[index], [name]: value };
+      return { ...prevData, boardCertification: newBoardCertification };
+    });
+  };
+
+  const addNewBoardCertification = () => {
+    setPsvData(prevData => ({
+      ...prevData,
+      boardCertification: [
+        ...prevData.boardCertification,
+        {
+          certifyingBoard: '',
+          subspecialty: '',
+          certificateNumber: '',
+          initialCertificationDate: '',
+          recertificationDate: '',
+          certificationStatus: '',
+          verificationStatus: ''
+        }
+      ]
+    }));
+  };
+
   const renderMedicalLicenseVerification = () => (
     <div className="bg-white p-6 rounded-lg shadow-md space-y-4 mb-6">
       <h3 className="text-xl font-semibold text-indigo-800 mb-4">Medical License Verification</h3>
@@ -153,11 +197,12 @@ export const PSV = () => {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/6">Program Type</th>
-              <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">Institute</th>
-              <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/4">Specialty/Subspecialty</th>
-              <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/8">Year Completed</th>
-              <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/8">Status</th>
+              <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Program Type</th>
+              <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Institute</th>
+              <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Specialty/Subspecialty</th>
+              <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Year Completed</th>
+              <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th className="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Verification Status</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -211,6 +256,18 @@ export const PSV = () => {
                     onChange={(e) => handleEducationInputChange(e, index)}
                     className="w-2/3 px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   />
+                </td>
+                <td className="px-3 py-4 whitespace-nowrap">
+                  <select
+                    name="verificationStatus"
+                    value={education.verificationStatus || 'Pending'}
+                    onChange={(e) => handleEducationInputChange(e, index)}
+                    className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  >
+                    <option value="Verified">Verified</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Failed">Failed</option>
+                  </select>
                 </td>
               </tr>
             ))}
@@ -275,14 +332,14 @@ export const PSV = () => {
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200" style={{ tableLayout: 'fixed' }}>
             <colgroup>
-              <col style={{ width: '12%' }} /> {/* State (increased by 20%) */}
-              <col style={{ width: '15%' }} /> {/* Subspecialty Certification */}
-              <col style={{ width: '17.5%' }} /> {/* State Medical License Number (reduced by 30%) */}
-              <col style={{ width: '12.5%' }} /> {/* Date of Board Certification */}
-              <col style={{ width: '12.5%' }} /> {/* Date of Board Recertification */}
-              <col style={{ width: '10%' }} /> {/* Verification Status */}
-              <col style={{ width: '10%' }} /> {/* License Status */}
-              <col style={{ width: '10%' }} /> {/* Disciplinary Action History */}
+              <col style={{ width: '12%' }} />
+              <col style={{ width: '15%' }} />
+              <col style={{ width: '17.5%' }} />
+              <col style={{ width: '12.5%' }} />
+              <col style={{ width: '12.5%' }} />
+              <col style={{ width: '10%' }} />
+              <col style={{ width: '10%' }} />
+              <col style={{ width: '10%' }} />
             </colgroup>
             <thead className="bg-gray-50">
               <tr>
@@ -386,6 +443,146 @@ export const PSV = () => {
     );
   };
 
+  const renderBoardCertification = () => {
+    const getCertificationStatusColor = (status: string) => {
+      switch (status.toLowerCase()) {
+        case 'active':
+          return 'bg-green-100 text-green-800';
+        case 'inactive':
+          return 'bg-yellow-100 text-yellow-800';
+        case 'expired':
+          return 'bg-red-100 text-red-800';
+        default:
+          return 'bg-gray-100 text-gray-800';
+      }
+    };
+
+    const getVerificationStatusColor = (status: string) => {
+      switch (status.toLowerCase()) {
+        case 'verified':
+          return 'bg-green-100 text-green-800';
+        case 'pending':
+          return 'bg-yellow-100 text-yellow-800';
+        case 'failed':
+          return 'bg-red-100 text-red-800';
+        default:
+          return 'bg-gray-100 text-gray-800';
+      }
+    };
+
+    return (
+      <div className="bg-white p-4 rounded-lg shadow-md space-y-4 mb-6">
+        <h3 className="text-xl font-semibold text-indigo-800 mb-4">Board Certification</h3>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <colgroup>
+              <col style={{ width: '22%' }} />
+              <col style={{ width: '15%' }} />
+              <col style={{ width: '13%' }} />
+              <col style={{ width: '12.5%' }} />
+              <col style={{ width: '12.5%' }} />
+              <col style={{ width: '12.5%' }} />
+              <col style={{ width: '12.5%' }} />
+            </colgroup>
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Certifying Board</th>
+                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subspecialty</th>
+                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Certificate Number</th>
+                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Initial Cert. Date</th>
+                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Recert. Date</th>
+                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Certification Status</th>
+                <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Verification Status</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {psvData.boardCertification.map((certification, index) => (
+                <tr key={index} className="hover:bg-gray-50 transition-colors duration-150 ease-in-out">
+                  <td className="px-2 py-4 whitespace-nowrap">
+                    <input
+                      type="text"
+                      name="certifyingBoard"
+                      value={certification.certifyingBoard}
+                      onChange={(e) => handleBoardCertificationInputChange(e, index)}
+                      className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    />
+                  </td>
+                  <td className="px-2 py-4 whitespace-nowrap">
+                    <input
+                      type="text"
+                      name="subspecialty"
+                      value={certification.subspecialty}
+                      onChange={(e) => handleBoardCertificationInputChange(e, index)}
+                      className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    />
+                  </td>
+                  <td className="px-2 py-4 whitespace-nowrap">
+                    <input
+                      type="text"
+                      name="certificateNumber"
+                      value={certification.certificateNumber}
+                      onChange={(e) => handleBoardCertificationInputChange(e, index)}
+                      className="w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    />
+                  </td>
+                  <td className="px-2 py-4 whitespace-nowrap">
+                    <input
+                      type="date"
+                      name="initialCertificationDate"
+                      value={certification.initialCertificationDate}
+                      onChange={(e) => handleBoardCertificationInputChange(e, index)}
+                      className="w-full px-1 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    />
+                  </td>
+                  <td className="px-2 py-4 whitespace-nowrap">
+                    <input
+                      type="date"
+                      name="recertificationDate"
+                      value={certification.recertificationDate}
+                      onChange={(e) => handleBoardCertificationInputChange(e, index)}
+                      className="w-full px-1 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    />
+                  </td>
+                  <td className="px-2 py-4 whitespace-nowrap">
+                    <select
+                      name="certificationStatus"
+                      value={certification.certificationStatus}
+                      onChange={(e) => handleBoardCertificationInputChange(e, index)}
+                      className={`w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${getCertificationStatusColor(certification.certificationStatus)}`}
+                    >
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                      <option value="Expired">Expired</option>
+                    </select>
+                  </td>
+                  <td className="px-2 py-4 whitespace-nowrap">
+                    <select
+                      name="verificationStatus"
+                      value={certification.verificationStatus}
+                      onChange={(e) => handleBoardCertificationInputChange(e, index)}
+                      className={`w-full px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent ${getVerificationStatusColor(certification.verificationStatus)}`}
+                    >
+                      <option value="Verified">Verified</option>
+                      <option value="Pending">Pending</option>
+                      <option value="Failed">Failed</option>
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <button
+          onClick={addNewBoardCertification}
+          className="mt-4 bg-green-500 text-white px-3 py-1 text-sm rounded-md flex items-center hover:bg-green-600 transition-colors"
+        >
+          <PlusCircle className="w-4 h-4 mr-1" />
+          Add Board Certification
+        </button>
+      </div>
+    );
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex justify-between items-center mb-6">
@@ -397,8 +594,8 @@ export const PSV = () => {
       </div>
       
       {renderMedicalLicenseVerification()}
-      
       {renderStateBoardVerification()}
+      {renderBoardCertification()}
     </div>
   );
 };

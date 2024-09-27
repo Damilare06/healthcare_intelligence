@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { MoreVertical, Database, User, FileCheck, Shield, Users, Building, CheckSquare, Eye, EyeOff, Search, Filter } from 'lucide-react'
+import { MoreVertical, Database, User, FileCheck, Shield, Users, Building, CheckSquare, Eye, EyeOff, Search, Filter, MoreHorizontal } from 'lucide-react'
 import { PSV, BackgroundCheck, CommitteeReview, PeerReferences, HospitalPrivileges, FinalApproval } from './CredentialingComponents'
+import Link from 'next/link';
 
 const mockData = [
   {
@@ -359,7 +360,7 @@ export default function CredentialTable() {
                   </div>
                 </div>
               </th>
-              <th className="hidden xl:table-cell px-4 py-3 text-left text-xs font-medium text-purple-800 uppercase tracking-wider">
+              <th className="hidden xl:table-cell px-4 py-3 text-left text-xs font-medium text-purple-800 uppercase tracking-wider" style={{ minWidth: '250px' }}>
                 <div className="flex flex-col">
                   <span>State Licenses</span>
                   <div className="mt-1">
@@ -426,13 +427,19 @@ export default function CredentialTable() {
                 <td className="hidden md:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-500">{item.specialty}</td>
                 <td className="hidden md:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-500">{item.medicalLicense}</td>
                 <td className="hidden lg:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-500">{item.taxNumber}</td>
-                <td className="hidden xl:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="hidden xl:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-500" style={{ minWidth: '250px' }}>
                   <div className="flex flex-wrap gap-1">
-                    {item.stateLicenses.map((license, index) => (
+                    {item.stateLicenses.slice(0, 3).map((license, index) => (
                       <span key={index} className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
                         {license}
                       </span>
                     ))}
+                    {item.stateLicenses.length > 3 && (
+                      <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800 flex items-center">
+                        <MoreHorizontal className="w-4 h-4 mr-1" />
+                        {item.stateLicenses.length - 3} more
+                      </span>
+                    )}
                   </div>
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap">
@@ -451,7 +458,7 @@ export default function CredentialTable() {
                   </span>
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap text-sm font-medium">
-                  <div className="flex justify-center">
+                  <div className="flex justify-center space-x-2">
                     <button
                       onClick={(e) => {
                         const rect = e.currentTarget.getBoundingClientRect();
@@ -465,6 +472,12 @@ export default function CredentialTable() {
                     >
                       <MoreVertical className="h-5 w-5" />
                     </button>
+                    <Link 
+                      href={`/credentialing/${item.id}/timeline`}
+                      className="text-indigo-600 hover:text-indigo-800"
+                    >
+                      Timeline
+                    </Link>
                   </div>
                 </td>
               </tr>
