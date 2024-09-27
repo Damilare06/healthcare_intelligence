@@ -1,13 +1,12 @@
 'use client'
 
 import React from 'react';
-import AskNova from '@/components/AskNova';
 import PreCallPreparation from '@/components/PreCallPreparation';
 import DuringCall from '@/components/DuringCall';
 import PostCallAnalysis from '@/components/PostCallAnalysis';
 
 export default function TalentScreeningPage() {
-  const [activeTab, setActiveTab] = React.useState('ask-nova');
+  const [activeTab, setActiveTab] = React.useState('pre-call');
   const [candidatePhoneNumber, setCandidatePhoneNumber] = React.useState('+1 (555) 123-4567');
 
   const handleStartCall = (phoneNumber: string) => {
@@ -17,11 +16,10 @@ export default function TalentScreeningPage() {
 
   const renderActiveComponent = () => {
     switch (activeTab) {
-      case 'ask-nova': return <AskNova />;
       case 'pre-call': return <PreCallPreparation onStartCall={handleStartCall} />;
       case 'during-call': return <DuringCall candidatePhoneNumber={candidatePhoneNumber} />;
       case 'post-call': return <PostCallAnalysis />;
-      default: return <AskNova />;
+      default: return <PreCallPreparation onStartCall={handleStartCall} />;
     }
   };
 
@@ -31,7 +29,7 @@ export default function TalentScreeningPage() {
         <h1 className="text-3xl font-bold mb-8 text-indigo-900">Talent Screening</h1>
         <div className="w-full">
           <div className="flex mb-8 bg-indigo-100 rounded-xl p-1 overflow-x-auto">
-            {['ask-nova', 'pre-call', 'during-call', 'post-call'].map((tab) => (
+            {['pre-call', 'during-call', 'post-call'].map((tab) => (
               <button
                 key={tab}
                 className={`flex-1 p-3 rounded-lg transition-all duration-300 ease-in-out ${

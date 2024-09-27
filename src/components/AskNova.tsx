@@ -83,10 +83,6 @@ export default function AskNova() {
 
   return (
     <div className="space-y-8">
-      <div className="text-center">
-        <h2 className="text-3xl font-bold text-indigo-900 mb-4">Ask Nova</h2>
-      </div>
-      
       <form onSubmit={handleSearch} className="flex items-center space-x-2">
         <input
           type="text"
