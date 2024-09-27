@@ -155,7 +155,6 @@ export default function AskNova() {
                   )}
                 </div>
                 <div className="mt-2 flex justify-between items-center">
-                  <span className="text-xs text-indigo-500">Sources: {faq.sources}</span>
                   <button
                     className="text-indigo-600 hover:text-indigo-800 transition-colors duration-300 flex items-center text-sm"
                   >
@@ -171,6 +170,7 @@ export default function AskNova() {
                       </>
                     )}
                   </button>
+                  <span className="text-xs text-indigo-500">Sources: {faq.sources}</span>
                 </div>
               </div>
             ))}

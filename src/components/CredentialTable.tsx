@@ -459,6 +459,12 @@ export default function CredentialTable() {
                 </td>
                 <td className="px-4 py-4 whitespace-nowrap text-sm font-medium">
                   <div className="flex justify-center space-x-2">
+                    <Link 
+                      href={`/credentialing/${item.id}/timeline`}
+                      className="text-indigo-600 hover:text-indigo-800"
+                    >
+                      Timeline
+                    </Link>
                     <button
                       onClick={(e) => {
                         const rect = e.currentTarget.getBoundingClientRect();
@@ -472,12 +478,6 @@ export default function CredentialTable() {
                     >
                       <MoreVertical className="h-5 w-5" />
                     </button>
-                    <Link 
-                      href={`/credentialing/${item.id}/timeline`}
-                      className="text-indigo-600 hover:text-indigo-800"
-                    >
-                      Timeline
-                    </Link>
                   </div>
                 </td>
               </tr>
