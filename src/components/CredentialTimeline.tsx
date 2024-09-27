@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CheckCircle, Clock, AlertCircle, ChevronDown, ChevronUp } from 'lucide-react';
+import CredentialDetailView from './CredentialDetailView';
 
 interface TimelineEvent {
   id: number;
@@ -63,9 +64,18 @@ const timelineEvents: TimelineEvent[] = [
 
 const CredentialTimeline: React.FC = () => {
   const [expandedEvent, setExpandedEvent] = useState<number | null>(null);
+  const [selectedEvent, setSelectedEvent] = useState<TimelineEvent | null>(null);
 
   const toggleEventDetails = (eventId: number) => {
     setExpandedEvent(expandedEvent === eventId ? null : eventId);
+  };
+
+  const openDetailView = (event: TimelineEvent) => {
+    setSelectedEvent(event);
+  };
+
+  const closeDetailView = () => {
+    setSelectedEvent(null);
   };
 
   const getStatusIcon = (status: string) => {
@@ -101,22 +111,30 @@ const CredentialTimeline: React.FC = () => {
                 <span className="text-sm text-gray-500">{event.date}</span>
               </div>
               <p className="text-sm text-gray-600 mt-1">Status: {event.status}</p>
-              <button
-                onClick={() => toggleEventDetails(event.id)}
-                className="mt-2 text-indigo-600 hover:text-indigo-800 flex items-center text-sm focus:outline-none"
-              >
-                {expandedEvent === event.id ? (
-                  <>
-                    <ChevronUp className="w-4 h-4 mr-1" />
-                    Hide details
-                  </>
-                ) : (
-                  <>
-                    <ChevronDown className="w-4 h-4 mr-1" />
-                    Show details
-                  </>
-                )}
-              </button>
+              <div className="flex justify-between items-center mt-2">
+                <button
+                  onClick={() => toggleEventDetails(event.id)}
+                  className="text-indigo-600 hover:text-indigo-800 flex items-center text-sm focus:outline-none"
+                >
+                  {expandedEvent === event.id ? (
+                    <>
+                      <ChevronUp className="w-4 h-4 mr-1" />
+                      Hide details
+                    </>
+                  ) : (
+                    <>
+                      <ChevronDown className="w-4 h-4 mr-1" />
+                      Show details
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={() => openDetailView(event)}
+                  className="text-indigo-600 hover:text-indigo-800 text-sm focus:outline-none"
+                >
+                  View Full Details
+                </button>
+              </div>
               {expandedEvent === event.id && (
                 <p className="mt-2 text-sm text-gray-600">{event.details}</p>
               )}
@@ -124,6 +142,9 @@ const CredentialTimeline: React.FC = () => {
           </div>
         ))}
       </div>
+      {selectedEvent && (
+        <CredentialDetailView event={selectedEvent} onClose={closeDetailView} />
+      )}
     </div>
   );
 };
