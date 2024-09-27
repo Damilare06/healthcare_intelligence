@@ -12,20 +12,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   const pathname = usePathname();
 
   const sidebarItems = [
-    { id: 'talent-screening', label: 'Talent Screening', icon: Search, href: '/' },
+    { id: 'talent-screening', label: 'Talent Screening', icon: Search, href: '/talent-screening' },
     { id: 'credentialing', label: 'Credentialing', icon: FileCheck, href: '/credentialing' },
     // ... (other items)
   ];
 
   const isActive = (href: string) => {
-    if (href === '/') {
-      return pathname === '/';
-    }
     return pathname.startsWith(href);
   };
 
   return (
     <div className={`fixed left-0 top-0 h-full bg-indigo-800 text-white transition-all duration-300 z-50 ${isOpen ? 'w-64' : 'w-16'}`}>
+      <Link href="/" className="block p-4 hover:bg-indigo-700">
+        <h1 className={`text-2xl font-bold ${isOpen ? '' : 'text-center'}`}>
+          {isOpen ? 'Nova' : 'N'}
+        </h1>
+      </Link>
       <button onClick={toggleSidebar} className="p-4 hover:bg-indigo-700 w-full text-left">
         {isOpen ? <ChevronLeft className="w-6 h-6" /> : <ChevronRight className="w-6 h-6" />}
       </button>
