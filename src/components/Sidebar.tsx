@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronLeft, ChevronRight, Search, FileCheck } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, FileCheck, LayoutDashboard } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -12,6 +12,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, toggleSidebar }) => {
   const pathname = usePathname();
 
   const sidebarItems = [
+    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
     { id: 'talent-screening', label: 'Talent Screening', icon: Search, href: '/talent-screening' },
     { id: 'credentialing', label: 'Credentialing', icon: FileCheck, href: '/credentialing' },
     // ... (other items)
