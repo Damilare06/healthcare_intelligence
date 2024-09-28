@@ -1,6 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { CheckCircle, Clock, AlertCircle, ChevronDown, ChevronUp, Database } from 'lucide-react';
 import CredentialDetailView from './CredentialDetailView';
+
+interface BlockchainLog {
+  transactionId: string;
+  issuingOrganization: string;
+  timestamp: string;
+  eventType: string;
+  details: string;
+}
 
 interface TimelineEvent {
   id: number;
@@ -8,81 +16,157 @@ interface TimelineEvent {
   date: string;
   status: 'completed' | 'in-progress' | 'pending';
   details: string;
-  blockchainData?: {
-    blockNumber: number;
-    hash: string;
-    timestamp: string;
-  };
+  blockchainData?: BlockchainLog;
+}
+
+interface CredentialTimelineProps {
+  candidateName: string;
 }
 
 const timelineEvents: TimelineEvent[] = [
   {
     id: 1,
-    title: 'Application Received',
-    date: '2023-05-01',
+    title: 'Medical School Graduation',
+    date: '2015-05-01',
     status: 'completed',
-    details: 'Initial application for Dr. Amy Collins received and processed.',
+    details: 'Dr. Amy Collins graduated from Medical University of South Carolina.',
     blockchainData: {
-      blockNumber: 15234567,
-      hash: '0x1a2b3c...',
-      timestamp: '2023-05-01T09:15:30Z'
+      transactionId: '0x4d5e6f...',
+      issuingOrganization: 'Medical University of South Carolina',
+      timestamp: '2015-05-01T09:15:30Z',
+      eventType: 'Graduation',
+      details: 'Dr. Amy Collins graduated from Medical University of South Carolina.',
     }
   },
   {
     id: 2,
-    title: 'Primary Source Verification',
-    date: '2023-05-15',
+    title: 'Residency Completion',
+    date: '2019-05-01',
     status: 'completed',
-    details: 'Medical school, residency, and fellowship credentials verified.',
+    details: 'Dr. Amy Collins completed her residency in Internal Medicine at Hospital B.',
     blockchainData: {
-      blockNumber: 15236789,
-      hash: '0x4d5e6f...',
-      timestamp: '2023-05-15T14:30:45Z'
+      transactionId: '0x7g8h9i...',
+      issuingOrganization: 'Hospital B',
+      timestamp: '2019-05-01T09:15:30Z',
+      eventType: 'Residency',
+      details: 'Dr. Amy Collins completed her residency in Internal Medicine at Hospital B.',
     }
   },
   {
     id: 3,
+    title: 'Fellowship Completion',
+    date: '2020-05-01',
+    status: 'completed',
+    details: 'Dr. Amy Collins completed her fellowship in Cardiology at Hospital C.',
+    blockchainData: {
+      transactionId: '0x1j2k3l...',
+      issuingOrganization: 'Hospital C',
+      timestamp: '2020-05-01T09:15:30Z',
+      eventType: 'Fellowship',
+      details: 'Dr. Amy Collins completed her fellowship in Cardiology at Hospital C.',
+    }
+  },
+  {
+    id: 4,
+    title: 'Board Certification',
+    date: '2021-05-01',
+    status: 'completed',
+    details: 'Dr. Amy Collins is board certified in Internal Medicine and Cardiology.',
+    blockchainData: {
+      transactionId: '0x4m5n6o...',
+      issuingOrganization: 'American Board of Internal Medicine',
+      timestamp: '2021-05-01T09:15:30Z',
+      eventType: 'Certification',
+      details: 'Dr. Amy Collins is board certified in Internal Medicine and Cardiology.',
+    }
+  },
+  {
+    id: 5,
+    title: 'CME Completion',
+    date: '2022-05-01',
+    status: 'completed',
+    details: 'Dr. Amy Collins completed 20 hours of CME in Cardiology.',
+    blockchainData: {
+      transactionId: '0x7p8q9r...',
+      issuingOrganization: 'American Heart Association',
+      timestamp: '2022-05-01T09:15:30Z',
+      eventType: 'CME',
+      details: 'Dr. Amy Collins completed 20 hours of CME in Cardiology.',
+    }
+  },
+  {
+    id: 6,
     title: 'License Verification',
     date: '2023-05-22',
     status: 'completed',
     details: 'State medical licenses verified for NY, CA, and TX.',
     blockchainData: {
-      blockNumber: 15238901,
-      hash: '0x7g8h9i...',
-      timestamp: '2023-05-22T11:45:20Z'
+      transactionId: '0x7g8h9i...',
+      issuingOrganization: 'State Medical Boards',
+      timestamp: '2023-05-22T11:45:20Z',
+      eventType: 'License',
+      details: 'State medical licenses verified for NY, CA, and TX.',
     }
   },
   {
-    id: 4,
-    title: 'Background Check',
-    date: '2023-06-01',
-    status: 'in-progress',
-    details: 'Criminal background check and OIG sanction list check in progress.'
-  },
-  {
-    id: 5,
-    title: 'Peer References',
-    date: '2023-06-15',
-    status: 'pending',
-    details: 'Awaiting responses from 3 peer references.'
-  },
-  {
-    id: 6,
-    title: 'Committee Review',
-    date: '2023-07-01',
-    status: 'pending',
-    details: 'Credentialing committee to review complete application.'
-  },
-  {
     id: 7,
-    title: 'Board Approval',
-    date: '2023-07-15',
-    status: 'pending',
-    details: 'Final approval by hospital board pending.'
-  }
+    title: 'NY License Renewal',
+    date: '2023-06-01',
+    status: 'completed',
+    details: 'NY license renewed',
+    blockchainData: {
+      transactionId: '0x8i9j0k...',
+      issuingOrganization: 'New York State Medical Board',
+      timestamp: '2023-06-01T11:45:20Z',
+      eventType: 'License',
+      details: 'NY license renewed',
+    }
+  },
+  {
+    id: 8,
+    title: 'CA License Renewal',
+    date: '2023-07-01',
+    status: 'completed',
+    details: 'CA license renewed',
+    blockchainData: {
+      transactionId: '0x9j0k1l...',
+      issuingOrganization: 'California Medical Board',
+      timestamp: '2023-07-01T11:45:20Z',
+      eventType: 'License',
+      details: 'CA license renewed',
+    }
+  },
+  {
+    id: 9,
+    title: 'TX License Renewal',
+    date: '2023-08-01',
+    status: 'completed',
+    details: 'TX license renewed',
+    blockchainData: {
+      transactionId: '0x0k1l2m...',
+      issuingOrganization: 'Texas Medical Board',
+      timestamp: '2023-08-01T11:45:20Z',
+      eventType: 'License',
+      details: 'TX license renewed',
+    }
+  },
+  {
+    id: 10,
+    title: 'Background Check',
+    date: '2023-09-01',
+    status: 'completed',
+    details: 'Background check completed with no issues found.',
+    blockchainData: {
+      transactionId: '0x1l2m3n...',
+      issuingOrganization: 'Background Check Agency',
+      timestamp: '2023-09-01T10:00:00Z',
+      eventType: 'Background Check',
+      details: 'Background check completed with no issues found.',
+    }
+  },
 ];
 
-const CredentialTimeline: React.FC = () => {
+const CredentialTimeline: React.FC<CredentialTimelineProps> = ({ candidateName }) => {
   const [expandedEvent, setExpandedEvent] = useState<number | null>(null);
   const [selectedEvent, setSelectedEvent] = useState<TimelineEvent | null>(null);
   const [showBlockchainLogs, setShowBlockchainLogs] = useState(false);
@@ -116,10 +200,23 @@ const CredentialTimeline: React.FC = () => {
     setShowBlockchainLogs(!showBlockchainLogs);
   };
 
+  const handleTransactionClick = (transactionId: string) => {
+    // Here you can implement the action when a transaction ID is clicked
+    // For example, you could open a modal with more details or navigate to a blockchain explorer
+    console.log(`Transaction ${transactionId} clicked`);
+  };
+
+  // Sort the timelineEvents by date, most recent first
+  const sortedTimelineEvents = useMemo(() => {
+    return [...timelineEvents].sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+  }, []);
+
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-indigo-900">Credential Timeline</h2>
+        <h2 className="text-2xl font-bold text-indigo-900">Credential Timeline for {candidateName}</h2>
         <button
           onClick={toggleBlockchainLogs}
           className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-300 flex items-center"
@@ -136,23 +233,32 @@ const CredentialTimeline: React.FC = () => {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Block Number</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hash</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Timestamp</th>
+                  <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-1/12">Event</th>
+                  <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-2/12">Transaction ID</th>
+                  <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-2/12">Issuing Org.</th>
+                  <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-2/12">Timestamp</th>
+                  <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-5/12">Details</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {timelineEvents
+                {sortedTimelineEvents
                   .filter(event => event.blockchainData)
                   .map(event => (
-                    <tr key={event.id}>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{event.title}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{event.blockchainData?.blockNumber}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{event.blockchainData?.hash}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <tr key={event.id} className="hover:bg-gray-50">
+                      <td className="px-2 py-4 whitespace-normal text-sm text-gray-900">{event.title}</td>
+                      <td className="px-2 py-4 whitespace-normal text-sm text-gray-500">
+                        <button
+                          onClick={() => handleTransactionClick(event.blockchainData?.transactionId || '')}
+                          className="text-indigo-600 hover:text-indigo-800 hover:underline cursor-pointer"
+                        >
+                          {event.blockchainData?.transactionId.slice(0, 10)}...
+                        </button>
+                      </td>
+                      <td className="px-2 py-4 whitespace-normal text-sm text-gray-500">{event.blockchainData?.issuingOrganization}</td>
+                      <td className="px-2 py-4 whitespace-normal text-sm text-gray-500">
                         {new Date(event.blockchainData?.timestamp || '').toLocaleString()}
                       </td>
+                      <td className="px-2 py-4 whitespace-normal text-sm text-gray-500">{event.blockchainData?.details}</td>
                     </tr>
                   ))}
               </tbody>
@@ -162,13 +268,13 @@ const CredentialTimeline: React.FC = () => {
       )}
 
       <div className="relative">
-        {timelineEvents.map((event, index) => (
+        {sortedTimelineEvents.map((event, index) => (
           <div key={event.id} className="mb-8 flex items-center">
             <div className="flex flex-col items-center mr-4">
               <div className="rounded-full bg-white border-2 border-indigo-500 w-8 h-8 flex items-center justify-center">
                 {getStatusIcon(event.status)}
               </div>
-              {index < timelineEvents.length - 1 && (
+              {index < sortedTimelineEvents.length - 1 && (
                 <div className="h-full border-l-2 border-indigo-300 my-2"></div>
               )}
             </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, CheckCircle, AlertCircle, RefreshCw, Edit, MessageSquare } from 'lucide-react';
+import { X, CheckCircle, AlertCircle, RefreshCw, Download, MessageSquare } from 'lucide-react';
 
 interface CredentialDetailViewProps {
   event: {
@@ -66,12 +66,12 @@ const CredentialDetailView: React.FC<CredentialDetailViewProps> = ({ event, onCl
 
         <div className="mt-8 flex justify-end space-x-4">
           <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors duration-300 flex items-center">
-            <Edit className="w-4 h-4 mr-2" />
-            Update
+            <Download className="w-4 h-4 mr-2" />
+            Download
           </button>
           <button className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-300 flex items-center">
             <RefreshCw className="w-4 h-4 mr-2" />
-            Renew
+            Refresh
           </button>
           <button className="px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors duration-300 flex items-center">
             <MessageSquare className="w-4 h-4 mr-2" />

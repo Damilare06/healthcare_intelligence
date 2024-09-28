@@ -8,7 +8,7 @@ const mockData = [
     id: 1,
     name: 'Dr. Amy Collins',
     medicalLicense: '456xxxxxxx',
-    taxNumber: '87-xxxxxxx',
+    providerNumber: '87-xxxxxxx',
     specialty: 'Cardiothoracic Surgery',
     stateLicenses: ['TX', 'NY', 'CA'],
     licenseStatus: 'Approved',
@@ -18,7 +18,7 @@ const mockData = [
     id: 2,
     name: 'Dr. Michael Chen',
     medicalLicense: '789xxxxxxx',
-    taxNumber: '65-xxxxxxx',
+    providerNumber: '65-xxxxxxx',
     specialty: 'Cardiologist',
     stateLicenses: ['NY', 'NJ', 'PA'],
     licenseStatus: 'Approved',
@@ -28,7 +28,7 @@ const mockData = [
     id: 3,
     name: 'Dr. Sarah Johnson',
     medicalLicense: '123xxxxxxx',
-    taxNumber: '54-xxxxxxx',
+    providerNumber: '54-xxxxxxx',
     specialty: 'Neurologist',
     stateLicenses: ['CA', 'WA', 'OR'],
     licenseStatus: 'Approved',
@@ -38,7 +38,7 @@ const mockData = [
     id: 4,
     name: 'Dr. David Lee',
     medicalLicense: '234xxxxxxx',
-    taxNumber: '43-xxxxxxx',
+    providerNumber: '43-xxxxxxx',
     specialty: 'Oncologist',
     stateLicenses: ['FL', 'GA', 'SC'],
     licenseStatus: 'Pending',
@@ -48,7 +48,7 @@ const mockData = [
     id: 5,
     name: 'Dr. Emily Rodriguez',
     medicalLicense: '345xxxxxxx',
-    taxNumber: '32-xxxxxxx',
+    providerNumber: '32-xxxxxxx',
     specialty: 'Dermatologist',
     stateLicenses: ['TX', 'OK', 'AR'],
     licenseStatus: 'Approved',
@@ -58,7 +58,7 @@ const mockData = [
     id: 6,
     name: 'Dr. James Wilson',
     medicalLicense: '567xxxxxxx',
-    taxNumber: '21-xxxxxxx',
+    providerNumber: '21-xxxxxxx',
     specialty: 'Orthopedic Surgeon',
     stateLicenses: ['GA', 'AL', 'MS'],
     licenseStatus: 'Approved',
@@ -68,7 +68,7 @@ const mockData = [
     id: 7,
     name: 'Dr. Maria Garcia',
     medicalLicense: '678xxxxxxx',
-    taxNumber: '10-xxxxxxx',
+    providerNumber: '10-xxxxxxx',
     specialty: 'Psychiatrist',
     stateLicenses: ['TX', 'LA', 'NM'],
     licenseStatus: 'Approved',
@@ -78,7 +78,7 @@ const mockData = [
     id: 8,
     name: 'Dr. Robert Kim',
     medicalLicense: '890xxxxxxx',
-    taxNumber: '98-xxxxxxx',
+    providerNumber: '98-xxxxxxx',
     specialty: 'Gastroenterologist',
     stateLicenses: ['NY', 'VT', 'ME'],
     licenseStatus: 'Pending',
@@ -88,7 +88,7 @@ const mockData = [
     id: 9,
     name: 'Dr. Lisa Brown',
     medicalLicense: '901xxxxxxx',
-    taxNumber: '87-xxxxxxx',
+    providerNumber: '87-xxxxxxx',
     specialty: 'Endocrinologist',
     stateLicenses: ['CA', 'NV', 'AZ'],
     licenseStatus: 'Approved',
@@ -98,7 +98,7 @@ const mockData = [
     id: 10,
     name: 'Dr. Thomas Anderson',
     medicalLicense: '012xxxxxxx',
-    taxNumber: '76-xxxxxxx',
+    providerNumber: '76-xxxxxxx',
     specialty: 'Pulmonologist',
     stateLicenses: ['FL', 'NC', 'VA'],
     licenseStatus: 'Approved',
@@ -108,7 +108,7 @@ const mockData = [
     id: 11,
     name: 'Dr. Jennifer Taylor',
     medicalLicense: '135xxxxxxx',
-    taxNumber: '65-xxxxxxx',
+    providerNumber: '65-xxxxxxx',
     specialty: 'Rheumatologist',
     stateLicenses: ['TX', 'CO', 'UT'],
     licenseStatus: 'Approved',
@@ -118,7 +118,7 @@ const mockData = [
     id: 12,
     name: 'Dr. Christopher Lee',
     medicalLicense: '246xxxxxxx',
-    taxNumber: '54-xxxxxxx',
+    providerNumber: '54-xxxxxxx',
     specialty: 'Urologist',
     stateLicenses: ['NY', 'RI', 'CT'],
     licenseStatus: 'Pending',
@@ -128,7 +128,7 @@ const mockData = [
     id: 13,
     name: 'Dr. Amanda Martinez',
     medicalLicense: '357xxxxxxx',
-    taxNumber: '43-xxxxxxx',
+    providerNumber: '43-xxxxxxx',
     specialty: 'Nephrologist',
     stateLicenses: ['CA', 'HI', 'WA'],
     licenseStatus: 'Approved',
@@ -138,7 +138,7 @@ const mockData = [
     id: 14,
     name: 'Dr. Daniel White',
     medicalLicense: '468xxxxxxx',
-    taxNumber: '32-xxxxxxx',
+    providerNumber: '32-xxxxxxx',
     specialty: 'Hematologist',
     stateLicenses: ['FL', 'TN', 'KY'],
     licenseStatus: 'Approved',
@@ -148,7 +148,7 @@ const mockData = [
     id: 15,
     name: 'Dr. Rachel Green',
     medicalLicense: '579xxxxxxx',
-    taxNumber: '21-xxxxxxx',
+    providerNumber: '21-xxxxxxx',
     specialty: 'Allergist',
     stateLicenses: ['TX', 'MO', 'IA'],
     licenseStatus: 'Approved',
@@ -158,7 +158,7 @@ const mockData = [
     id: 16,
     name: 'Dr. Kevin Patel',
     medicalLicense: '680xxxxxxx',
-    taxNumber: '10-xxxxxxx',
+    providerNumber: '10-xxxxxxx',
     specialty: 'Ophthalmologist',
     stateLicenses: ['NY', 'NJ', 'DE'],
     licenseStatus: 'Pending',
@@ -168,7 +168,7 @@ const mockData = [
     id: 17,
     name: 'Dr. Olivia Thompson',
     medicalLicense: '791xxxxxxx',
-    taxNumber: '98-xxxxxxx',
+    providerNumber: '98-xxxxxxx',
     specialty: 'Anesthesiologist',
     stateLicenses: ['CA', 'OR', 'ID'],
     licenseStatus: 'Approved',
@@ -178,7 +178,7 @@ const mockData = [
     id: 18,
     name: 'Dr. William Clark',
     medicalLicense: '802xxxxxxx',
-    taxNumber: '87-xxxxxxx',
+    providerNumber: '87-xxxxxxx',
     specialty: 'Radiologist',
     stateLicenses: ['FL', 'SC', 'GA'],
     licenseStatus: 'Approved',
@@ -188,7 +188,7 @@ const mockData = [
     id: 19,
     name: 'Dr. Sophia Nguyen',
     medicalLicense: '913xxxxxxx',
-    taxNumber: '76-xxxxxxx',
+    providerNumber: '76-xxxxxxx',
     specialty: 'Infectious Disease Specialist',
     stateLicenses: ['TX', 'OK', 'LA'],
     licenseStatus: 'Approved',
@@ -198,7 +198,7 @@ const mockData = [
     id: 20,
     name: 'Dr. Alexander Ross',
     medicalLicense: '024xxxxxxx',
-    taxNumber: '65-xxxxxxx',
+    providerNumber: '65-xxxxxxx',
     specialty: 'Geriatrician',
     stateLicenses: ['NY', 'PA', 'NJ'],
     licenseStatus: 'Pending',
@@ -208,7 +208,7 @@ const mockData = [
     id: 21,
     name: 'Dr. Natalie Wong',
     medicalLicense: '135xxxxxxx',
-    taxNumber: '54-xxxxxxx',
+    providerNumber: '54-xxxxxxx',
     specialty: 'Neonatologist',
     stateLicenses: ['CA', 'NV', 'AZ'],
     licenseStatus: 'Approved',
@@ -218,7 +218,7 @@ const mockData = [
     id: 22,
     name: 'Dr. Eric Simmons',
     medicalLicense: '246xxxxxxx',
-    taxNumber: '43-xxxxxxx',
+    providerNumber: '43-xxxxxxx',
     specialty: 'Vascular Surgeon',
     stateLicenses: ['FL', 'AL', 'MS'],
     licenseStatus: 'Approved',
@@ -228,7 +228,7 @@ const mockData = [
     id: 23,
     name: 'Dr. Samantha Baker',
     medicalLicense: '357xxxxxxx',
-    taxNumber: '32-xxxxxxx',
+    providerNumber: '32-xxxxxxx',
     specialty: 'Emergency Medicine Physician',
     stateLicenses: ['CA', 'WA', 'OR'],
     licenseStatus: 'Approved',
@@ -307,6 +307,13 @@ export default function CredentialTable() {
     </div>
   )
 
+  const handleNameClick = (id: number) => {
+    setActiveTab('specific');
+    // You might want to set some state here to indicate which specific candidate is selected
+    // For example:
+    // setSelectedCandidateId(id);
+  };
+
   const renderDatabaseTable = () => (
     <>
       {renderSearchAndFilter()}
@@ -352,7 +359,7 @@ export default function CredentialTable() {
               </th>
               <th className="hidden lg:table-cell px-4 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
                 <div className="flex flex-col">
-                  <span>Tax Number</span>
+                  <span>Provider Number</span>
                   <div className="mt-1 invisible">
                     <select className="block w-full text-xs bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
                       <option value="">All</option>
@@ -423,10 +430,17 @@ export default function CredentialTable() {
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredData.slice(0, rowsPerPage).map((item) => (
               <tr key={item.id}>
-                <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{item.name}</td>
+                <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <button 
+                    onClick={() => handleNameClick(item.id)}
+                    className="text-indigo-600 hover:text-indigo-800 hover:underline"
+                  >
+                    {item.name}
+                  </button>
+                </td>
                 <td className="hidden md:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-500">{item.specialty}</td>
                 <td className="hidden md:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-500">{item.medicalLicense}</td>
-                <td className="hidden lg:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-500">{item.taxNumber}</td>
+                <td className="hidden lg:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-500">{item.providerNumber}</td>
                 <td className="hidden xl:table-cell px-4 py-4 whitespace-nowrap text-sm text-gray-500" style={{ width: '166px' }}>
                   <div className="flex flex-wrap gap-1">
                     {item.stateLicenses.slice(0, 3).map((license, index) => (
