@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { Save, PlusCircle } from 'lucide-react'
+import CredentialSummaryTimeline from './CredentialSummaryTimeline'
 
-export const PSV = () => {
+export const PSV: React.FC<{ candidate?: any }> = ({ candidate }) => {
   const [psvData, setPsvData] = useState({
     // Medical License Verification
     fullName: 'Dr. Amy Collins',
@@ -593,6 +594,8 @@ export const PSV = () => {
         </button>
       </div>
       
+      <CredentialSummaryTimeline candidate={candidate} showFullHistoryButton={false} />
+      
       {renderMedicalLicenseVerification()}
       {renderStateBoardVerification()}
       {renderBoardCertification()}
@@ -600,7 +603,7 @@ export const PSV = () => {
   );
 };
 
-export const BackgroundCheck = () => {
+export const BackgroundCheck: React.FC<{ candidate?: any }> = ({ candidate }) => {
   const [backgroundData, setBackgroundData] = useState({
     socialSecurityNumber: '987-65-4321',
     criminalBackgroundCheck: 'No issues found',
@@ -653,7 +656,7 @@ export const BackgroundCheck = () => {
   );
 };
 
-export const CommitteeReview = () => {
+export const CommitteeReview: React.FC<{ candidate?: any }> = ({ candidate }) => {
   const [committeeData, setCommitteeData] = useState({
     recommendation: 'Approved',
     meetingDate: '2023-06-15',
@@ -716,7 +719,7 @@ export const CommitteeReview = () => {
   );
 };
 
-export const PeerReferences = () => {
+export const PeerReferences: React.FC<{ candidate?: any }> = ({ candidate }) => {
   const [references, setReferences] = useState([
     {
       name: 'Dr. John Smith',
@@ -798,7 +801,7 @@ export const PeerReferences = () => {
   );
 };
 
-export const HospitalPrivileges = () => {
+export const HospitalPrivileges: React.FC<{ candidate?: any }> = ({ candidate }) => {
   const [privileges, setPrivileges] = useState([
     {
       hospitalName: 'Texas Children\'s Hospital',
@@ -876,7 +879,7 @@ export const HospitalPrivileges = () => {
   );
 };
 
-export const FinalApproval = () => {
+export const FinalApproval: React.FC<{ candidate?: any }> = ({ candidate }) => {
   const [contractData, setContractData] = useState({
     startDate: '2023-09-01',
     duration: '3 years',

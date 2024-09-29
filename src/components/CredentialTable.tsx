@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { MoreVertical, Database, User, FileCheck, Shield, Users, Building, CheckSquare, Eye, EyeOff, Search, Filter, MoreHorizontal } from 'lucide-react'
 import { PSV, BackgroundCheck, CommitteeReview, PeerReferences, HospitalPrivileges, FinalApproval } from './CredentialingComponents'
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import CredentialSummaryTimeline from './CredentialSummaryTimeline';
 
 const mockData = [
   {
@@ -236,6 +238,20 @@ const mockData = [
   },
 ];
 
+const generateMockTimelineEvents = (candidateId: number) => {
+  // This function should generate or fetch real timeline events for each candidate
+  // For now, we'll use mock data
+  return [
+    { id: `${candidateId}-1`, date: '2020-01-15', type: 'license', status: 'active', details: 'NY Medical License Issued' },
+    { id: `${candidateId}-2`, date: '2020-03-20', type: 'certification', status: 'active', details: 'Board Certification in Cardiothoracic Surgery' },
+    { id: `${candidateId}-3`, date: '2021-05-10', type: 'cme', status: 'completed', details: 'Completed 50 CME credits' },
+    { id: `${candidateId}-4`, date: '2022-02-01', type: 'license', status: 'active', details: 'CA Medical License Issued' },
+    { id: `${candidateId}-5`, date: '2022-11-30', type: 'disciplinary', status: 'issue', details: 'Minor disciplinary action - resolved' },
+    { id: `${candidateId}-6`, date: '2023-01-15', type: 'license', status: 'pending', details: 'TX Medical License Application Submitted' },
+    { id: `${candidateId}-7`, date: '2023-06-30', type: 'certification', status: 'expired', details: 'BLS Certification Expired' },
+  ];
+};
+
 export default function CredentialTable() {
   const [activeTab, setActiveTab] = useState('database')
   const [rowsPerPage, setRowsPerPage] = useState(10)
@@ -249,6 +265,9 @@ export default function CredentialTable() {
     offerStatus: '',
     stateLicenses: ''
   });
+  const [showTimelinePopup, setShowTimelinePopup] = useState(false);
+  const [selectedCandidate, setSelectedCandidate] = useState<any | null>(null);
+  const router = useRouter();
 
   const dropdownRef = useRef<HTMLDivElement>(null)
 
@@ -307,11 +326,20 @@ export default function CredentialTable() {
     </div>
   )
 
-  const handleNameClick = (id: number) => {
-    setActiveTab('specific');
-    // You might want to set some state here to indicate which specific candidate is selected
-    // For example:
-    // setSelectedCandidateId(id);
+  const handleNameClick = (item: any) => {
+    setSelectedCandidate(item);
+    setShowTimelinePopup(true);
+  };
+
+  const handleClosePopup = () => {
+    setShowTimelinePopup(false);
+    // Don't reset selectedCandidate here
+  };
+
+  const handleViewFullHistory = () => {
+    if (selectedCandidate) {
+      router.push(`/credentialing/${selectedCandidate.id}`);
+    }
   };
 
   const renderDatabaseTable = () => (
@@ -432,7 +460,7 @@ export default function CredentialTable() {
               <tr key={item.id}>
                 <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                   <button 
-                    onClick={() => handleNameClick(item.id)}
+                    onClick={() => handleNameClick(item)}
                     className="text-indigo-600 hover:text-indigo-800 hover:underline"
                   >
                     {item.name}
@@ -614,6 +642,19 @@ export default function CredentialTable() {
             <EyeOff className="h-4 w-4 inline-block mr-2" />
             Hide
           </button>
+        </div>
+      )}
+
+      {showTimelinePopup && selectedCandidate && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <CredentialSummaryTimeline 
+              candidate={selectedCandidate}
+              fullTimelineEvents={generateMockTimelineEvents(selectedCandidate.id)}
+              onClose={handleClosePopup}
+              onViewFullHistory={handleViewFullHistory}
+            />
+          </div>
         </div>
       )}
     </div>
